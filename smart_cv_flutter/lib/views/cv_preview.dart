@@ -723,29 +723,33 @@ class _CVPreviewViewState extends State<CVPreviewView> {
 
                 // Overlapping Portrait Photo Frame
                 Positioned(
-                  left: 45,
-                  top: -65,
+                  left: 40,
+                  top: -55,
                   child: Container(
-                    width: 140,
-                    height: 155,
+                    width: 145,
+                    height: 160,
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.15),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+                          color: Color(0x33000000),
+                          blurRadius: 14,
+                          spreadRadius: 1,
+                          offset: Offset(0, 6),
                         ),
                       ],
                     ),
-                    clipBehavior: Clip.antiAlias,
-                    child: info.photoBytes != null
-                        ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
-                        : Container(
-                            color: const Color(0xFFCBD5E1),
-                            child: const Icon(Icons.person, size: 70, color: Colors.white),
-                          ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7),
+                      child: info.photoBytes != null
+                          ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
+                          : Container(
+                              color: const Color(0xFFCBD5E1),
+                              child: const Icon(Icons.person, size: 70, color: Colors.white),
+                            ),
+                    ),
                   ),
                 ),
               ],
@@ -759,11 +763,14 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   Widget _mattSidebarHeader(String title, Color color) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      color: color,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Text(
         title,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12.5),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12.5, letterSpacing: 0.5),
       ),
     );
   }
@@ -772,10 +779,13 @@ class _CVPreviewViewState extends State<CVPreviewView> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-      color: color,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Text(
         title,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13.5),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13.5, letterSpacing: 0.5),
       ),
     );
   }
@@ -786,7 +796,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
         CircleAvatar(
           radius: 12,
           backgroundColor: color,
-          child: Icon(icon, color: Colors.white, size: 12),
+          child: Icon(icon, color: Colors.white, size: 11),
         ),
         const SizedBox(width: 8),
         Expanded(
