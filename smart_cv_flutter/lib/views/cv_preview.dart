@@ -723,18 +723,404 @@ class _CVPreviewViewState extends State<CVPreviewView> {
     );
   }
 
-  // 8. FRANCISCO ANDRADE (Steel Blue & Modern Card Style)
+  // 8. FRANCISCO ANDRADE (Pixel-Perfect Match to Canva Template)
   Widget _buildFranciscoAndradeTemplate(CVData cvData, CVTheme theme) {
-    const sidebarSteel = Color(0xFF3B82F6);
-    const bodySteel = Color(0xFF1E40AF);
-    const purplePill = Color(0xFF7C3AED);
-    return _buildTwoColumnTemplate(
-      cvData: cvData,
-      theme: theme,
-      sidebarColor: sidebarSteel,
-      bodyColor: bodySteel,
-      badgeColor: purplePill,
-      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    final info = cvData.personalInfo;
+    const steelBlue = Color(0xFF4C6485);
+    const darkBlueText = Color(0xFF1E3A8A);
+    const cardBgColor = Color(0xFFF1F5F9);
+    const bodyTextColor = Color(0xFF475569);
+
+    final nameParts = info.fullName.trim().split(' ');
+    final firstName = nameParts.isNotEmpty ? nameParts.first.toUpperCase() : 'FRANCISCO';
+    final lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ').toUpperCase() : 'ANDRADE';
+
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Left Sidebar (260px width)
+          Container(
+            width: 260,
+            decoration: BoxDecoration(
+              color: steelBlue,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Profile Photo
+                  Center(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      padding: const EdgeInsets.all(4),
+                      child: CircleAvatar(
+                        radius: 56,
+                        backgroundColor: const Color(0xFF64748B),
+                        backgroundImage: info.photoBytes != null ? MemoryImage(info.photoBytes!) : null,
+                        child: info.photoBytes == null
+                            ? const Icon(Icons.person, size: 56, color: Colors.white)
+                            : null,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+
+                  // CONTACT ME Pill Badge
+                  _franciscoSidebarPill('CONTACT ME'),
+                  const SizedBox(height: 12),
+                  if (info.phone.isNotEmpty) _franciscoContactRow(Icons.phone, info.phone),
+                  if (info.email.isNotEmpty) _franciscoContactRow(Icons.email, info.email),
+                  if (info.location.isNotEmpty) _franciscoContactRow(Icons.location_on, info.location),
+                  if (info.portfolio.isNotEmpty) _franciscoContactRow(Icons.language, info.portfolio),
+                  if (info.github.isNotEmpty) _franciscoContactRow(Icons.code, info.github),
+                  const SizedBox(height: 28),
+
+                  // SKILLS Pill Badge
+                  _franciscoSidebarPill('SKILLS'),
+                  const SizedBox(height: 12),
+                  if (cvData.skills.isNotEmpty)
+                    ...cvData.skills.map((skill) => Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('• ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                              Expanded(child: Text(skill, style: const TextStyle(color: Colors.white, fontSize: 11.5, height: 1.3))),
+                            ],
+                          ),
+                        ))
+                  else ...[
+                    _franciscoBulletText('Project Management'),
+                    _franciscoBulletText('Public Relations'),
+                    _franciscoBulletText('Teamwork'),
+                    _franciscoBulletText('Time Management'),
+                    _franciscoBulletText('Leadership'),
+                    _franciscoBulletText('Effective Communication'),
+                    _franciscoBulletText('Critical Thinking'),
+                  ],
+                  const SizedBox(height: 28),
+
+                  // REFERENCES Pill Badge
+                  _franciscoSidebarPill('REFERENCES'),
+                  const SizedBox(height: 12),
+                  _franciscoSampleRef('Harumi Kobayashi', 'Wardiere Inc. / CEO', '123-456-7890', 'hello@reallygreatsite.com'),
+                  const SizedBox(height: 10),
+                  _franciscoSampleRef('Bailey Dupont', 'Wardiere Inc. / CEO', '123-456-7890', 'hello@reallygreatsite.com'),
+                  const SizedBox(height: 28),
+
+                  // LANGUAGE Pill Badge
+                  _franciscoSidebarPill('LANGUAGE'),
+                  const SizedBox(height: 12),
+                  if (cvData.languages.isNotEmpty)
+                    ...cvData.languages.map((l) => _franciscoBulletText(l.name))
+                  else ...[
+                    _franciscoBulletText('English'),
+                    _franciscoBulletText('French'),
+                    _franciscoBulletText('Spanish'),
+                  ],
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 28),
+
+          // Right Main Area
+          Expanded(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Name & Title
+                      Text(
+                        firstName,
+                        style: TextStyle(
+                          fontSize: 34 * theme.fontSizeScale,
+                          fontWeight: FontWeight.w900,
+                          color: darkBlueText,
+                          height: 1.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                      Text(
+                        lastName,
+                        style: TextStyle(
+                          fontSize: 34 * theme.fontSizeScale,
+                          fontWeight: FontWeight.w900,
+                          color: darkBlueText,
+                          height: 1.1,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        info.jobTitle.isNotEmpty ? info.jobTitle : 'Marketing Manager',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF1E293B),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+
+                      // ABOUT ME Section
+                      _franciscoMainPill('ABOUT ME'),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: cardBgColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          cvData.professionalSummary.isNotEmpty
+                              ? cvData.professionalSummary
+                              : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consequat orci a quam porta accumsan. Sed lobortis ut enim in fringilla.',
+                          style: const TextStyle(color: bodyTextColor, fontSize: 11.5, height: 1.5),
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+
+                      // EXPERIENCE Section
+                      _franciscoMainPill('EXPERIENCE'),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: cardBgColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: cvData.experience.isNotEmpty
+                              ? cvData.experience.asMap().entries.map((entry) {
+                                  final idx = entry.key;
+                                  final exp = entry.value;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (idx > 0) const Divider(height: 24, color: Color(0xFFCBD5E1)),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: darkBlueText)),
+                                          Text('${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: bodyTextColor, fontSize: 11, fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                      Text(exp.company, style: const TextStyle(color: Color(0xFF1E293B), fontSize: 11.5, fontWeight: FontWeight.w600)),
+                                      if (exp.description.isNotEmpty) ...[
+                                        const SizedBox(height: 4),
+                                        Text(exp.description, style: const TextStyle(color: bodyTextColor, fontSize: 11, height: 1.4)),
+                                      ],
+                                    ],
+                                  );
+                                }).toList()
+                              : [
+                                  _franciscoSampleExp('Marketing Manager', 'Really Great Industries', '2020 – 2023'),
+                                  const Divider(height: 20, color: Color(0xFFCBD5E1)),
+                                  _franciscoSampleExp('Marketing Manager', 'Really Great Industries', '2019 – 2020'),
+                                  const Divider(height: 20, color: Color(0xFFCBD5E1)),
+                                  _franciscoSampleExp('Marketing Manager', 'Really Great Industries', '2017 – 2019'),
+                                ],
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+
+                      // EDUCATION Section
+                      _franciscoMainPill('EDUCATION'),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: cardBgColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: cvData.education.isNotEmpty
+                              ? cvData.education.asMap().entries.map((entry) {
+                                  final idx = entry.key;
+                                  final edu = entry.value;
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      if (idx > 0) const Divider(height: 20, color: Color(0xFFCBD5E1)),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF1E293B))),
+                                          Text('${edu.startDate} - ${edu.endDate}', style: const TextStyle(color: bodyTextColor, fontSize: 11, fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                      Text(edu.major, style: const TextStyle(color: bodyTextColor, fontSize: 11.5)),
+                                    ],
+                                  );
+                                }).toList()
+                              : [
+                                  _franciscoSampleEdu('Borcelle Business School', 'Bachelor of Business Management', '2020 – 2023'),
+                                  const Divider(height: 20, color: Color(0xFFCBD5E1)),
+                                  _franciscoSampleEdu('Borcelle Business School', 'Bachelor of Business Management', '2016 – 2020'),
+                                ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Top Right Decorative Curved Block
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 36,
+                    height: 80,
+                    decoration: const BoxDecoration(
+                      color: steelBlue,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(14),
+                        bottomRight: Radius.circular(14),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _franciscoSidebarPill(String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Color(0xFF1E3A8A),
+            fontWeight: FontWeight.w900,
+            fontSize: 12,
+            letterSpacing: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _franciscoMainPill(String title) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 7),
+      decoration: BoxDecoration(
+        color: const Color(0xFF4C6485),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w900,
+          fontSize: 12.5,
+          letterSpacing: 1.5,
+        ),
+      ),
+    );
+  }
+
+  Widget _franciscoContactRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white, size: 14),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white, fontSize: 10.5),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _franciscoBulletText(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('• ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+          Expanded(child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 11))),
+        ],
+      ),
+    );
+  }
+
+  Widget _franciscoSampleRef(String name, String title, String phone, String email) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+        Text(title, style: const TextStyle(color: Colors.white70, fontSize: 10.5)),
+        Text('Phone: $phone', style: const TextStyle(color: Colors.white60, fontSize: 10)),
+        Text('Email: $email', style: const TextStyle(color: Colors.white60, fontSize: 10)),
+      ],
+    );
+  }
+
+  Widget _franciscoSampleExp(String title, String company, String date) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF1E3A8A))),
+            Text(date, style: const TextStyle(color: Color(0xFF475569), fontSize: 11, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        Text(company, style: const TextStyle(color: Color(0xFF1E293B), fontSize: 11.5, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 4),
+        const Text(
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consequat orci a quam porta accumsan.',
+          style: TextStyle(color: Color(0xFF475569), fontSize: 11, height: 1.4),
+        ),
+      ],
+    );
+  }
+
+  Widget _franciscoSampleEdu(String school, String degree, String date) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF1E293B))),
+            Text(date, style: const TextStyle(color: Color(0xFF475569), fontSize: 11, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        Text(degree, style: const TextStyle(color: Color(0xFF475569), fontSize: 11.5)),
+      ],
     );
   }
 
