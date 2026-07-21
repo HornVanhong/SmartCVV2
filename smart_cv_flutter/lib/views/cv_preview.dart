@@ -264,9 +264,9 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // =========================================================
   Widget _buildDanielMortonTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const darkCrimson = Color(0xFF6E0812);
-    const bodyCrimson = Color(0xFF850B19);
-    const pillCrimson = Color(0xFF4C050C);
+    final darkCrimson = theme.primaryColor;
+    final bodyCrimson = theme.primaryColor;
+    final pillCrimson = theme.primaryColor;
 
     final nameParts = info.fullName.trim().split(' ');
     final firstName = nameParts.isNotEmpty ? nameParts.first.toUpperCase() : 'DANIEL';
@@ -502,7 +502,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // 2. MATT ZHANG / MURAD NASER (Pixel-Perfect Match to User Design Image)
   Widget _buildMuradNaserTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const bannerBlue = Color(0xFF466B95);
+    final bannerBlue = theme.primaryColor;
     const sidebarBg = Color(0xFFDCE4EC);
     const darkText = Color(0xFF1E293B);
     const bodyText = Color(0xFF334155);
@@ -832,7 +832,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // 3. FRANCOIS MERCER (Dark Slate Blue Sidebar, Skill Progress Bars & Outer Border Frame)
   Widget _buildFrancoisMercerTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const slateBlue = Color(0xFF284B70);
+    final slateBlue = theme.primaryColor;
     const bodyText = Color(0xFF334155);
 
     return Container(
@@ -950,12 +950,12 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.circle, size: 10, color: slateBlue),
+                                    Icon(Icons.circle, size: 10, color: slateBlue),
                                     const SizedBox(width: 6),
                                     Text(exp.position.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.black)),
                                   ],
                                 ),
-                                Text('${exp.startDate} / ${exp.endDate} – ${exp.company.toUpperCase()}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10.5, color: slateBlue)),
+                                Text('${exp.startDate} / ${exp.endDate} – ${exp.company.toUpperCase()}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10.5, color: slateBlue)),
                                 if (exp.description.isNotEmpty) ...[
                                   const SizedBox(height: 2),
                                   Text(exp.description, style: const TextStyle(color: bodyText, fontSize: 10.5, height: 1.35)),
@@ -1102,7 +1102,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // 4. BENJAMIN SHAH / RICHARD SANCHEZ (Dark Navy Top & Bottom Banner with Circular Avatar & Dual Column Pill Badges)
   Widget _buildRichardSanchezTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const darkNavy = Color(0xFF1C2541);
+    final darkNavy = theme.primaryColor;
     const bodyText = Color(0xFF334155);
 
     return Container(
@@ -1223,13 +1223,13 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
+                                      Text(edu.school, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
                                       Text('${edu.major} ${edu.startDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
                                     ],
                                   ),
                                 ))
                           else ...[
-                            const Text('Rimberio of Computer Science', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
+                            Text('Rimberio of Computer Science', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
                             const Text('Rimberio University      2021', style: TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
                           ],
                         ],
@@ -1273,7 +1273,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5, color: darkNavy)),
+                                          Text(exp.position, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5, color: darkNavy)),
                                           Text('${exp.startDate}-${exp.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
                                         ],
                                       ),
@@ -1368,7 +1368,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // 5. DANIEL GALLEGO (Ocean Teal with 3D Folded Ribbon Banners & Icons)
   Widget _buildDanielGallegoTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const oceanTeal = Color(0xFF063952);
+    final oceanTeal = theme.primaryColor;
 
     return Container(
       color: Colors.white,
@@ -1563,7 +1563,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // 6. GEORGE WILKINS (Monochrome Pop Art Boxed Headers & Circular Skill Charts)
   Widget _buildGeorgeWilkinsTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const darkBox = Color(0xFF1F242A);
+    final darkBox = theme.primaryColor;
     const bodyText = Color(0xFF334155);
 
     return Container(

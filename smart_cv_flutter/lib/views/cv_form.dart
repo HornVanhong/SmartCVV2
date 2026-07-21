@@ -314,30 +314,76 @@ class _CVFormViewState extends State<CVFormView> with SingleTickerProviderStateM
           _sectionHeaderTitle('Accent Primary Color'),
           const SizedBox(height: 12),
           Wrap(
-            spacing: 14,
+            spacing: 12,
+            runSpacing: 12,
             children: [
+              '#466b95', // Canva Steel Blue
               '#2563eb', // Royal Blue
+              '#0284c7', // Ocean Sky Blue
               '#059669', // Emerald Green
-              '#7c3aed', // Deep Purple
-              '#dc2626', // Red
-              '#0f172a', // Midnight Slate
+              '#0d9488', // Deep Teal
+              '#7c3aed', // Purple
+              '#c026d3', // Magenta
+              '#dc2626', // Crimson Red
+              '#ea580c', // Sunset Amber
+              '#1e293b', // Slate Navy
+              '#111827', // Obsidian Black
               '#8c7a6b', // Warm Taupe
             ].map((hex) {
               final color = Color(int.parse('FF${hex.replaceAll('#', '')}', radix: 16));
-              final isSelected = theme.primaryColorHex == hex;
+              final isSelected = theme.primaryColorHex.toLowerCase() == hex.toLowerCase();
               return InkWell(
                 onTap: () => provider.setPrimaryColor(hex),
                 child: Container(
-                  width: 38,
-                  height: 38,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: color,
                     shape: BoxShape.circle,
-                    border: isSelected ? Border.all(color: Colors.black, width: 3.5) : null,
+                    border: isSelected
+                        ? Border.all(color: Colors.black, width: 3.5)
+                        : Border.all(color: const Color(0xFFCBD5E1), width: 1.5),
+                    boxShadow: isSelected
+                        ? [BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 8, spreadRadius: 1)]
+                        : null,
                   ),
+                  child: isSelected
+                      ? const Icon(Icons.check, color: Colors.white, size: 20)
+                      : null,
                 ),
               );
             }).toList(),
+          ),
+          const SizedBox(height: 16),
+          // Custom Hex Input
+          Row(
+            children: [
+              const Text('Custom Hex Color:', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF334155))),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 140,
+                height: 40,
+                child: TextFormField(
+                  initialValue: theme.primaryColorHex,
+                  key: ValueKey(theme.primaryColorHex),
+                  decoration: InputDecoration(
+                    hintText: '#466B95',
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  onChanged: (val) {
+                    final clean = val.trim();
+                    if (clean.length == 7 && clean.startsWith('#')) {
+                      provider.setPrimaryColor(clean);
+                    } else if (clean.length == 6 && !clean.startsWith('#')) {
+                      provider.setPrimaryColor('#$clean');
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
 
           const SizedBox(height: 28),
