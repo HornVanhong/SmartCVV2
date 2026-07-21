@@ -518,15 +518,15 @@ class _CVPreviewViewState extends State<CVPreviewView> {
               // Sidebar Top Extension (Light Grey-Blue)
               Container(
                 width: 260,
-                height: 90,
+                height: 105,
                 color: sidebarBg,
               ),
               // Main Blue Header Banner
               Expanded(
                 child: Container(
-                  height: 90,
+                  height: 105,
                   color: bannerBlue,
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -534,21 +534,25 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                       Text(
                         info.fullName.isNotEmpty ? info.fullName : 'Matt Zhang',
                         style: TextStyle(
-                          fontSize: 28 * theme.fontSizeScale,
+                          fontSize: (26 * theme.fontSizeScale).clamp(18.0, 30.0),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           letterSpacing: 0.8,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         (info.jobTitle.isNotEmpty ? info.jobTitle : 'MARKETING MANAGER').toUpperCase(),
                         style: const TextStyle(
-                          fontSize: 13,
+                          fontSize: 12.5,
                           fontWeight: FontWeight.w600,
                           color: Colors.white70,
-                          letterSpacing: 2.0,
+                          letterSpacing: 1.8,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
