@@ -479,13 +479,420 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   }
 
   // =========================================================
-  // OTHER TEMPLATE FALLBACKS
+  // DISTINCT TEMPLATE IMPLEMENTATIONS
   // =========================================================
-  Widget _buildMuradNaserTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildFrancoisMercerTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildRichardSanchezTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildDanielGallegoTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildGeorgeWilkinsTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildKyriePetrakisTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
-  Widget _buildFranciscoAndradeTemplate(CVData cvData, CVTheme theme) => _buildDanielMortonTemplate(cvData, theme);
+
+  // 2. MURAD NASER (Deep Teal & Gold Accent)
+  Widget _buildMuradNaserTemplate(CVData cvData, CVTheme theme) {
+    const sidebarTeal = Color(0xFF0E5A60);
+    const bodyTeal = Color(0xFF073B40);
+    const goldPill = Color(0xFFD97706);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarTeal,
+      bodyColor: bodyTeal,
+      badgeColor: goldPill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 3. FRANCOIS MERCER (Dark Slate Blue & Cyan)
+  Widget _buildFrancoisMercerTemplate(CVData cvData, CVTheme theme) {
+    const sidebarSlate = Color(0xFF1E293B);
+    const bodySlate = Color(0xFF334155);
+    const cyanPill = Color(0xFF0EA5E9);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarSlate,
+      bodyColor: bodySlate,
+      badgeColor: cyanPill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 4. RICHARD SANCHEZ (Midnight Navy & Amber)
+  Widget _buildRichardSanchezTemplate(CVData cvData, CVTheme theme) {
+    const sidebarNavy = Color(0xFF0F172A);
+    const bodyNavy = Color(0xFF1E3A8A);
+    const amberPill = Color(0xFFB45309);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarNavy,
+      bodyColor: bodyNavy,
+      badgeColor: amberPill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 5. DANIEL GALLEGO (Ocean Blue & Mint Accent)
+  Widget _buildDanielGallegoTemplate(CVData cvData, CVTheme theme) {
+    const sidebarOcean = Color(0xFF063952);
+    const bodyOcean = Color(0xFF0A4F70);
+    const mintPill = Color(0xFF0D9488);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarOcean,
+      bodyColor: bodyOcean,
+      badgeColor: mintPill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 6. GEORGE WILKINS (Modern Top-Header Clean Layout)
+  Widget _buildGeorgeWilkinsTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const headerColor = Color(0xFF0F172A);
+    const bodyBg = Color(0xFFF8FAFC);
+    const accentBlue = Color(0xFF2563EB);
+
+    return Container(
+      color: bodyBg,
+      child: Column(
+        children: [
+          // Top Header Banner
+          Container(
+            color: headerColor,
+            padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
+            child: Row(
+              children: [
+                if (info.photoBytes != null) ...[
+                  CircleAvatar(
+                    radius: 42,
+                    backgroundImage: MemoryImage(info.photoBytes!),
+                  ),
+                  const SizedBox(width: 24),
+                ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        info.fullName.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        info.jobTitle,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF94A3B8),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (info.email.isNotEmpty) Text(info.email, style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                    if (info.phone.isNotEmpty) Text(info.phone, style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                    if (info.location.isNotEmpty) Text(info.location, style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Body Content (2 Columns)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Left Column: Summary, Experience
+                  Expanded(
+                    flex: 3,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (cvData.professionalSummary.isNotEmpty) ...[
+                            _topHeaderSectionTitle('PROFESSIONAL SUMMARY', accentBlue),
+                            Text(cvData.professionalSummary, style: const TextStyle(color: Color(0xFF334155), fontSize: 12, height: 1.5)),
+                            const SizedBox(height: 24),
+                          ],
+                          if (cvData.experience.isNotEmpty) ...[
+                            _topHeaderSectionTitle('WORK EXPERIENCE', accentBlue),
+                            ...cvData.experience.map((exp) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A))),
+                                      Text('${exp.company} | ${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: accentBlue, fontSize: 12, fontWeight: FontWeight.w600)),
+                                      if (exp.description.isNotEmpty) ...[
+                                        const SizedBox(height: 4),
+                                        Text(exp.description, style: const TextStyle(color: Color(0xFF475569), fontSize: 11.5, height: 1.4)),
+                                      ],
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 32),
+                  // Right Column: Education, Skills, Languages
+                  Expanded(
+                    flex: 2,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (cvData.skills.isNotEmpty) ...[
+                            _topHeaderSectionTitle('SKILLS', accentBlue),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: cvData.skills.map((skill) => Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFEFF6FF),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: const Color(0xFFBFDBFE)),
+                                    ),
+                                    child: Text(skill, style: const TextStyle(color: Color(0xFF1E40AF), fontSize: 11, fontWeight: FontWeight.bold)),
+                                  )).toList(),
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+                          if (cvData.education.isNotEmpty) ...[
+                            _topHeaderSectionTitle('EDUCATION', accentBlue),
+                            ...cvData.education.map((edu) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF0F172A))),
+                                      Text(edu.major, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+                                    ],
+                                  ),
+                                )),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 7. KYRIE PETRAKIS (Minimalist Black & Elegant Layout)
+  Widget _buildKyriePetrakisTemplate(CVData cvData, CVTheme theme) {
+    const sidebarBlack = Color(0xFF000000);
+    const bodyCharcoal = Color(0xFF18181B);
+    const emeraldPill = Color(0xFF059669);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarBlack,
+      bodyColor: bodyCharcoal,
+      badgeColor: emeraldPill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 8. FRANCISCO ANDRADE (Steel Blue & Modern Card Style)
+  Widget _buildFranciscoAndradeTemplate(CVData cvData, CVTheme theme) {
+    const sidebarSteel = Color(0xFF3B82F6);
+    const bodySteel = Color(0xFF1E40AF);
+    const purplePill = Color(0xFF7C3AED);
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: sidebarSteel,
+      bodyColor: bodySteel,
+      badgeColor: purplePill,
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  Widget _topHeaderSectionTitle(String title, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: TextStyle(color: color, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1.2)),
+          const SizedBox(height: 3),
+          Container(height: 2, color: color.withValues(alpha: 0.3)),
+        ],
+      ),
+    );
+  }
+
+  // Reusable Two-Column Layout builder supporting customized colors
+  Widget _buildTwoColumnTemplate({
+    required CVData cvData,
+    required CVTheme theme,
+    required Color sidebarColor,
+    required Color bodyColor,
+    required Color badgeColor,
+    required String badgeText,
+  }) {
+    final info = cvData.personalInfo;
+    final nameParts = info.fullName.trim().split(' ');
+    final firstName = nameParts.isNotEmpty ? nameParts.first.toUpperCase() : '';
+    final lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ').toUpperCase() : '';
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Left Sidebar (300px width)
+        Container(
+          width: 300,
+          color: sidebarColor,
+          padding: const EdgeInsets.all(28),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      radius: 64,
+                      backgroundColor: Colors.white24,
+                      backgroundImage: info.photoBytes != null ? MemoryImage(info.photoBytes!) : null,
+                      child: info.photoBytes == null ? const Icon(Icons.person, size: 64, color: Colors.white) : null,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 36),
+                _mortonSidebarHeading('About Me'),
+                Text(cvData.professionalSummary, style: const TextStyle(color: Colors.white70, fontSize: 12, height: 1.5)),
+                const SizedBox(height: 28),
+                _mortonSidebarHeading('Contact Me'),
+                _mortonContactBullet(info.github),
+                _mortonContactBullet(info.phone),
+                _mortonContactBullet(info.portfolio),
+                _mortonContactBullet(info.location),
+                _mortonContactBullet(info.email),
+                const SizedBox(height: 28),
+                _mortonSidebarHeading('Skills'),
+                Text(
+                  cvData.skills.isNotEmpty ? cvData.skills.join(', ') : 'Layout Design, Strategy, Communication',
+                  style: const TextStyle(color: Colors.white70, fontSize: 11.5, height: 1.4),
+                ),
+                if (cvData.languages.isNotEmpty) ...[
+                  const SizedBox(height: 28),
+                  _mortonSidebarHeading('Languages'),
+                  ...cvData.languages.map((l) => Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Text('• ${l.name}', style: const TextStyle(color: Colors.white, fontSize: 12)),
+                      )),
+                ],
+              ],
+            ),
+          ),
+        ),
+
+        // Right Main Content Area
+        Expanded(
+          child: Container(
+            color: bodyColor,
+            padding: const EdgeInsets.all(32),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    firstName,
+                    style: TextStyle(
+                      fontSize: 38 * theme.fontSizeScale,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      height: 1.0,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                  Text(
+                    lastName,
+                    style: TextStyle(
+                      fontSize: 38 * theme.fontSizeScale,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      height: 1.1,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: badgeColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      badgeText,
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13.5, letterSpacing: 1.8),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
+                  if (cvData.education.isNotEmpty) ...[
+                    const Text('Education', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),
+                    const SizedBox(height: 14),
+                    ...cvData.education.map((edu) => Padding(
+                          padding: const EdgeInsets.only(bottom: 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(edu.school, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                              Text(edu.major, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                              if (edu.description.isNotEmpty) ...[
+                                const SizedBox(height: 4),
+                                Text(edu.description, style: const TextStyle(color: Colors.white60, fontSize: 11.5, height: 1.45)),
+                              ],
+                            ],
+                          ),
+                        )),
+                    const SizedBox(height: 28),
+                  ],
+                  if (cvData.experience.isNotEmpty) ...[
+                    const Text('Work Experience', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20)),
+                    const SizedBox(height: 14),
+                    ...cvData.experience.map((exp) => Padding(
+                          padding: const EdgeInsets.only(bottom: 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(exp.company, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                              Text('${exp.position} | ${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                              if (exp.description.isNotEmpty) ...[
+                                const SizedBox(height: 6),
+                                Text(exp.description, style: const TextStyle(color: Colors.white60, fontSize: 11.5, height: 1.5)),
+                              ],
+                            ],
+                          ),
+                        )),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
+
