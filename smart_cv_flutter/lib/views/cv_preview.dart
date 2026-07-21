@@ -902,6 +902,14 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                         )),
                   ],
                 ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   // 9. ISABEL MERCADO (Dark Navy & Skill Bars)
   Widget _buildIsabelMercadoTemplate(CVData cvData, CVTheme theme) {
     return _buildTwoColumnTemplate(
