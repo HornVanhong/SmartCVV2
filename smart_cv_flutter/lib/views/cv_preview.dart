@@ -229,6 +229,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
         return _buildMuradNaserTemplate(cvData, theme);
       case 'francois_mercer':
         return _buildFrancoisMercerTemplate(cvData, theme);
+      case 'benjamin_shah':
       case 'richard_sanchez':
         return _buildRichardSanchezTemplate(cvData, theme);
       case 'daniel_gallego':
@@ -517,15 +518,15 @@ class _CVPreviewViewState extends State<CVPreviewView> {
               // Sidebar Top Extension (Light Grey-Blue)
               Container(
                 width: 260,
-                height: 105,
+                height: 90,
                 color: sidebarBg,
               ),
               // Main Blue Header Banner
               Expanded(
                 child: Container(
-                  height: 105,
+                  height: 90,
                   color: bannerBlue,
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -533,25 +534,21 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                       Text(
                         info.fullName.isNotEmpty ? info.fullName : 'Matt Zhang',
                         style: TextStyle(
-                          fontSize: (26 * theme.fontSizeScale).clamp(18.0, 30.0),
+                          fontSize: 28 * theme.fontSizeScale,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           letterSpacing: 0.8,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         (info.jobTitle.isNotEmpty ? info.jobTitle : 'MARKETING MANAGER').toUpperCase(),
                         style: const TextStyle(
-                          fontSize: 12.5,
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: Colors.white70,
-                          letterSpacing: 1.8,
+                          letterSpacing: 2.0,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -817,188 +814,472 @@ class _CVPreviewViewState extends State<CVPreviewView> {
     );
   }
 
-  // 3. FRANCOIS MERCER (Dark Slate Blue & Cyan)
+  // 3. FRANCOIS MERCER (Dark Slate Blue Sidebar, Skill Progress Bars & Outer Border Frame)
   Widget _buildFrancoisMercerTemplate(CVData cvData, CVTheme theme) {
-    const sidebarSlate = Color(0xFF1E293B);
-    const bodySlate = Color(0xFF334155);
-    const cyanPill = Color(0xFF0EA5E9);
-    return _buildTwoColumnTemplate(
-      cvData: cvData,
-      theme: theme,
-      sidebarColor: sidebarSlate,
-      bodyColor: bodySlate,
-      badgeColor: cyanPill,
-      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
-    );
-  }
-
-  // 4. RICHARD SANCHEZ (Midnight Navy & Amber)
-  Widget _buildRichardSanchezTemplate(CVData cvData, CVTheme theme) {
-    const sidebarNavy = Color(0xFF0F172A);
-    const bodyNavy = Color(0xFF1E3A8A);
-    const amberPill = Color(0xFFB45309);
-    return _buildTwoColumnTemplate(
-      cvData: cvData,
-      theme: theme,
-      sidebarColor: sidebarNavy,
-      bodyColor: bodyNavy,
-      badgeColor: amberPill,
-      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
-    );
-  }
-
-  // 5. DANIEL GALLEGO (Ocean Blue & Mint Accent)
-  Widget _buildDanielGallegoTemplate(CVData cvData, CVTheme theme) {
-    const sidebarOcean = Color(0xFF063952);
-    const bodyOcean = Color(0xFF0A4F70);
-    const mintPill = Color(0xFF0D9488);
-    return _buildTwoColumnTemplate(
-      cvData: cvData,
-      theme: theme,
-      sidebarColor: sidebarOcean,
-      bodyColor: bodyOcean,
-      badgeColor: mintPill,
-      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
-    );
-  }
-
-  // 6. GEORGE WILKINS (Modern Top-Header Clean Layout)
-  Widget _buildGeorgeWilkinsTemplate(CVData cvData, CVTheme theme) {
     final info = cvData.personalInfo;
-    const headerColor = Color(0xFF0F172A);
-    const bodyBg = Color(0xFFF8FAFC);
-    const accentBlue = Color(0xFF2563EB);
+    const slateBlue = Color(0xFF284B70);
+    const bodyText = Color(0xFF334155);
 
     return Container(
-      color: bodyBg,
-      child: Column(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: slateBlue, width: 14),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Top Header Banner
+          // Left Dark Slate Blue Sidebar
           Container(
-            color: headerColor,
-            padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
-            child: Row(
-              children: [
-                if (info.photoBytes != null) ...[
-                  CircleAvatar(
-                    radius: 42,
-                    backgroundImage: MemoryImage(info.photoBytes!),
-                  ),
-                  const SizedBox(width: 24),
-                ],
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        info.fullName.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                          letterSpacing: 1.5,
-                        ),
+            width: 250,
+            color: slateBlue,
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      child: CircleAvatar(
+                        radius: 56,
+                        backgroundImage: info.photoBytes != null ? MemoryImage(info.photoBytes!) : null,
+                        child: info.photoBytes == null ? const Icon(Icons.person, size: 56, color: Colors.white) : null,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        info.jobTitle,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF94A3B8),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (info.email.isNotEmpty) Text(info.email, style: const TextStyle(color: Colors.white70, fontSize: 11)),
-                    if (info.phone.isNotEmpty) Text(info.phone, style: const TextStyle(color: Colors.white70, fontSize: 11)),
-                    if (info.location.isNotEmpty) Text(info.location, style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                  const SizedBox(height: 24),
+
+                  _mercerSidebarSection('Education'),
+                  if (cvData.education.isNotEmpty)
+                    ...cvData.education.map((edu) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(edu.school, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11.5)),
+                              Text('${edu.startDate} - ${edu.endDate}', style: const TextStyle(color: Colors.white70, fontSize: 10)),
+                              if (edu.description.isNotEmpty) Text(edu.description, style: const TextStyle(color: Colors.white60, fontSize: 9.5)),
+                            ],
+                          ),
+                        ))
+                  else ...[
+                    _mercerEduBlock('San Dias School of Design', '2010 - 2013', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+                    _mercerEduBlock('Bachelor of Arts,', '2010 - 2013', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
                   ],
-                ),
-              ],
+                  const SizedBox(height: 24),
+
+                  _mercerSidebarSection('Skills'),
+                  _mercerProgressBar('GRAPHIC DESIGN', 0.9),
+                  _mercerProgressBar('ILLUSTRATION', 0.75),
+                  _mercerProgressBar('PHOTOGRAPHY', 0.8),
+                  _mercerProgressBar('MOTION GRAPHICS', 0.95),
+                  _mercerProgressBar('VIDEOGRAPHY', 0.85),
+                  _mercerProgressBar('TYPOGRAPHY', 0.7),
+                  const SizedBox(height: 24),
+
+                  _mercerSidebarSection('Contact'),
+                  if (info.phone.isNotEmpty) _mercerContactRow(Icons.phone, info.phone),
+                  if (info.email.isNotEmpty) _mercerContactRow(Icons.email, info.email),
+                  if (info.portfolio.isNotEmpty) _mercerContactRow(Icons.language, info.portfolio),
+                  if (info.location.isNotEmpty) _mercerContactRow(Icons.location_on, info.location),
+                ],
+              ),
             ),
           ),
-          // Body Content (2 Columns)
+
+          // Right Main Column
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(24),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      info.fullName.isNotEmpty ? info.fullName.toUpperCase() : 'FRANCOIS\nMERCER',
+                      style: TextStyle(
+                        fontSize: 32 * theme.fontSizeScale,
+                        fontWeight: FontWeight.w900,
+                        color: slateBlue,
+                        height: 1.0,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      (info.jobTitle.isNotEmpty ? info.jobTitle : 'GRAPHIC DESIGNER').toUpperCase(),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black, letterSpacing: 1.5),
+                    ),
+                    const SizedBox(height: 24),
+
+                    _mercerMainPill('About Me', slateBlue),
+                    const SizedBox(height: 8),
+                    Text(
+                      cvData.professionalSummary.isNotEmpty
+                          ? cvData.professionalSummary
+                          : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus arcu, finibus id mattis nec, fringilla ut lectus.',
+                      style: const TextStyle(color: bodyText, fontSize: 11, height: 1.4),
+                    ),
+                    const SizedBox(height: 20),
+
+                    _mercerMainPill('Experience Work', slateBlue),
+                    const SizedBox(height: 10),
+                    if (cvData.experience.isNotEmpty)
+                      ...cvData.experience.map((exp) => Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.circle, size: 10, color: slateBlue),
+                                    const SizedBox(width: 6),
+                                    Text(exp.position.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5, color: Colors.black)),
+                                  ],
+                                ),
+                                Text('${exp.startDate} / ${exp.endDate} – ${exp.company.toUpperCase()}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10.5, color: slateBlue)),
+                                if (exp.description.isNotEmpty) ...[
+                                  const SizedBox(height: 2),
+                                  Text(exp.description, style: const TextStyle(color: bodyText, fontSize: 10.5, height: 1.35)),
+                                ],
+                              ],
+                            ),
+                          ))
+                    else ...[
+                      _mercerExpBlock('GRAPHIC DESIGN', '2021 / 2022 – LICERIA STUDIO'),
+                      _mercerExpBlock('GRAPHIC DESIGN', '2022 / 2023 – SALFORD & CO. STUDIO'),
+                      _mercerExpBlock('GRAPHIC DESIGN', '2023 / 2025 – LICERIA STUDIO'),
+                    ],
+                    const SizedBox(height: 20),
+
+                    _mercerMainPill('Reference', slateBlue),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Juliana Silva', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                              Text('Rimberio / CTO', style: TextStyle(color: bodyText, fontSize: 10)),
+                              Text('+123-456-7890', style: TextStyle(color: bodyText, fontSize: 10)),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Donna Stroupe', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                              Text('Borcelle / CEO', style: TextStyle(color: bodyText, fontSize: 10)),
+                              Text('+123-456-7890', style: TextStyle(color: bodyText, fontSize: 10)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _mercerSidebarSection(String title) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+        const SizedBox(height: 2),
+        const Divider(color: Colors.white38, thickness: 1),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  Widget _mercerProgressBar(String skill, double progress) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(skill, style: const TextStyle(color: Colors.white70, fontSize: 8.5, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 2),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: LinearProgressIndicator(
+              value: progress,
+              backgroundColor: const Color(0xFF64748B),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              minHeight: 5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _mercerMainPill(String title, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+    );
+  }
+
+  Widget _mercerEduBlock(String school, String date, String desc) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(school, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11)),
+          Text(date, style: const TextStyle(color: Colors.white70, fontSize: 10)),
+          Text(desc, style: const TextStyle(color: Colors.white60, fontSize: 9.5, height: 1.3)),
+        ],
+      ),
+    );
+  }
+
+  Widget _mercerExpBlock(String role, String sub) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.circle, size: 8, color: Color(0xFF284B70)),
+              const SizedBox(width: 6),
+              Text(role, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+            ],
+          ),
+          Text(sub, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: Color(0xFF284B70))),
+          const Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer purus arcu.', style: TextStyle(color: Color(0xFF334155), fontSize: 10, height: 1.3)),
+        ],
+      ),
+    );
+  }
+
+  Widget _mercerContactRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          CircleAvatar(radius: 9, backgroundColor: Colors.white24, child: Icon(icon, color: Colors.white, size: 9)),
+          const SizedBox(width: 6),
+          Expanded(child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 9.5), overflow: TextOverflow.ellipsis)),
+        ],
+      ),
+    );
+  }
+
+  // 4. BENJAMIN SHAH / RICHARD SANCHEZ (Dark Navy Top & Bottom Banner with Circular Avatar & Dual Column Pill Badges)
+  Widget _buildRichardSanchezTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const darkNavy = Color(0xFF1C2541);
+    const bodyText = Color(0xFF334155);
+
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          // Top Header Banner with Overlapping Avatar
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                height: 120,
+                width: double.infinity,
+                color: darkNavy,
+                padding: const EdgeInsets.only(left: 200, top: 28, right: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      info.fullName.isNotEmpty ? info.fullName.toUpperCase() : 'BENJAMIN SHAH',
+                      style: TextStyle(
+                        fontSize: (28 * theme.fontSizeScale).clamp(20.0, 32.0),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        letterSpacing: 1.5,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      info.jobTitle.isNotEmpty ? info.jobTitle : 'Web Developer',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Overlapping Circle Avatar
+              Positioned(
+                left: 36,
+                top: 15,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircleAvatar(
+                    radius: 65,
+                    backgroundColor: const Color(0xFF64748B),
+                    backgroundImage: info.photoBytes != null ? MemoryImage(info.photoBytes!) : null,
+                    child: info.photoBytes == null
+                        ? const Icon(Icons.person, size: 65, color: Colors.white)
+                        : null,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 36),
+
+          // Main 2-Column Content Body
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(32),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Left Column: Summary, Experience
+                  // Left Column: ABOUT ME, CONTACT, LANGUAGES, EDUCATION
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (cvData.professionalSummary.isNotEmpty) ...[
-                            _topHeaderSectionTitle('PROFESSIONAL SUMMARY', accentBlue),
-                            Text(cvData.professionalSummary, style: const TextStyle(color: Color(0xFF334155), fontSize: 12, height: 1.5)),
-                            const SizedBox(height: 24),
+                          _shahPillHeader('ABOUT ME', darkNavy),
+                          const SizedBox(height: 10),
+                          Text(
+                            cvData.professionalSummary.isNotEmpty
+                                ? cvData.professionalSummary
+                                : 'Passionate and detail-oriented Web Developer with experience in designing, developing, and maintaining responsive websites and web applications.',
+                            style: const TextStyle(color: bodyText, fontSize: 11, height: 1.45),
+                          ),
+                          const SizedBox(height: 24),
+
+                          _shahPillHeader('CONTACT', darkNavy),
+                          const SizedBox(height: 10),
+                          if (info.phone.isNotEmpty) _shahContactItem(Icons.phone, info.phone, darkNavy),
+                          if (info.portfolio.isNotEmpty) _shahContactItem(Icons.language, info.portfolio, darkNavy),
+                          if (info.email.isNotEmpty) _shahContactItem(Icons.email, info.email, darkNavy),
+                          if (info.location.isNotEmpty) _shahContactItem(Icons.location_on, info.location, darkNavy),
+                          const SizedBox(height: 24),
+
+                          _shahPillHeader('LANGUAGES', darkNavy),
+                          const SizedBox(height: 10),
+                          if (cvData.languages.isNotEmpty)
+                            ...cvData.languages.map((l) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Text('• ${l.name}', style: const TextStyle(color: bodyText, fontSize: 11)),
+                                ))
+                          else ...[
+                            const Text('• English', style: TextStyle(color: bodyText, fontSize: 11)),
+                            const SizedBox(height: 3),
+                            const Text('• Spanish', style: TextStyle(color: bodyText, fontSize: 11)),
                           ],
-                          if (cvData.experience.isNotEmpty) ...[
-                            _topHeaderSectionTitle('WORK EXPERIENCE', accentBlue),
-                            ...cvData.experience.map((exp) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 16),
+                          const SizedBox(height: 24),
+
+                          _shahPillHeader('EDUCATION', darkNavy),
+                          const SizedBox(height: 10),
+                          if (cvData.education.isNotEmpty)
+                            ...cvData.education.map((edu) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A))),
-                                      Text('${exp.company} | ${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: accentBlue, fontSize: 12, fontWeight: FontWeight.w600)),
-                                      if (exp.description.isNotEmpty) ...[
-                                        const SizedBox(height: 4),
-                                        Text(exp.description, style: const TextStyle(color: Color(0xFF475569), fontSize: 11.5, height: 1.4)),
-                                      ],
+                                      Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
+                                      Text('${edu.major} ${edu.startDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
                                     ],
                                   ),
-                                )),
+                                ))
+                          else ...[
+                            const Text('Rimberio of Computer Science', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: darkNavy)),
+                            const Text('Rimberio University      2021', style: TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
                           ],
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(width: 32),
-                  // Right Column: Education, Skills, Languages
+
+                  const SizedBox(width: 28),
+
+                  // Right Column: SKILLS, EXPERIENCE
                   Expanded(
-                    flex: 2,
+                    flex: 5,
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (cvData.skills.isNotEmpty) ...[
-                            _topHeaderSectionTitle('SKILLS', accentBlue),
-                            Wrap(
-                              spacing: 6,
-                              runSpacing: 6,
-                              children: cvData.skills.map((skill) => Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFF6FF),
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: const Color(0xFFBFDBFE)),
-                                    ),
-                                    child: Text(skill, style: const TextStyle(color: Color(0xFF1E40AF), fontSize: 11, fontWeight: FontWeight.bold)),
-                                  )).toList(),
-                            ),
-                            const SizedBox(height: 24),
+                          _shahPillHeader('SKILLS', darkNavy),
+                          const SizedBox(height: 10),
+                          if (cvData.skills.isNotEmpty)
+                            ...cvData.skills.map((s) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Text('• $s', style: const TextStyle(color: bodyText, fontSize: 11)),
+                                ))
+                          else ...[
+                            const Text('• Tailwind CSS', style: TextStyle(color: bodyText, fontSize: 11)),
+                            const Text('• Bootstrap', style: TextStyle(color: bodyText, fontSize: 11)),
+                            const Text('• WordPress', style: TextStyle(color: bodyText, fontSize: 11)),
+                            const Text('• Figma', style: TextStyle(color: bodyText, fontSize: 11)),
+                            const Text('• Docker', style: TextStyle(color: bodyText, fontSize: 11)),
                           ],
-                          if (cvData.education.isNotEmpty) ...[
-                            _topHeaderSectionTitle('EDUCATION', accentBlue),
-                            ...cvData.education.map((edu) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
+                          const SizedBox(height: 24),
+
+                          _shahPillHeader('EXPERIENCE', darkNavy),
+                          const SizedBox(height: 10),
+                          if (cvData.experience.isNotEmpty)
+                            ...cvData.experience.map((exp) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 14),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF0F172A))),
-                                      Text(edu.major, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5, color: darkNavy)),
+                                          Text('${exp.startDate}-${exp.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+                                        ],
+                                      ),
+                                      Text(exp.company, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11)),
+                                      if (exp.description.isNotEmpty) ...[
+                                        const SizedBox(height: 4),
+                                        Text('• ${exp.description}', style: const TextStyle(color: bodyText, fontSize: 10.5, height: 1.35)),
+                                      ],
                                     ],
                                   ),
-                                )),
+                                ))
+                          else ...[
+                            _shahSampleExp('Web Developer', 'Wardiere Inc.', '2021-2023', [
+                              'Performed website testing, debugging, and maintenance.',
+                              'Integrated APIs and third-party services.',
+                            ]),
+                            const SizedBox(height: 12),
+                            _shahSampleExp('Junior Web Developer', 'Rimberio', '2021-2022', [
+                              'Participated in code reviews and team development meetings.',
+                              'Maintained databases and ensured data integrity.',
+                            ]),
                           ],
                         ],
                       ),
@@ -1008,8 +1289,503 @@ class _CVPreviewViewState extends State<CVPreviewView> {
               ),
             ),
           ),
+
+          // Bottom Footer Banner
+          Container(
+            height: 36,
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            decoration: BoxDecoration(
+              color: darkNavy,
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _shahPillHeader(String title, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1.2),
+      ),
+    );
+  }
+
+  Widget _shahContactItem(IconData icon, String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          CircleAvatar(radius: 11, backgroundColor: color, child: Icon(icon, color: Colors.white, size: 11)),
+          const SizedBox(width: 8),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 10.5, color: Color(0xFF334155)))),
+        ],
+      ),
+    );
+  }
+
+  Widget _shahSampleExp(String title, String company, String date, List<String> bullets) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5, color: Color(0xFF1C2541))),
+            Text(date, style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+          ],
+        ),
+        Text(company, style: const TextStyle(color: Color(0xFF64748B), fontSize: 11)),
+        const SizedBox(height: 4),
+        ...bullets.map((b) => Text('• $b', style: const TextStyle(color: Color(0xFF334155), fontSize: 10.5, height: 1.35))),
+      ],
+    );
+  }
+
+  // 5. DANIEL GALLEGO (Ocean Teal with 3D Folded Ribbon Banners & Icons)
+  Widget _buildDanielGallegoTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const oceanTeal = Color(0xFF063952);
+
+    return Container(
+      color: Colors.white,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Left Ocean Teal Sidebar
+          Container(
+            width: 260,
+            color: oceanTeal,
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: info.photoBytes != null ? MemoryImage(info.photoBytes!) : null,
+                        child: info.photoBytes == null ? const Icon(Icons.person, size: 60, color: Colors.white) : null,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+
+                  _gallegoSidebarOutlinePill('Contact'),
+                  const SizedBox(height: 10),
+                  if (info.phone.isNotEmpty) _gallegoContactRow(Icons.phone, info.phone),
+                  if (info.portfolio.isNotEmpty) _gallegoContactRow(Icons.language, info.portfolio),
+                  if (info.email.isNotEmpty) _gallegoContactRow(Icons.email, info.email),
+                  if (info.location.isNotEmpty) _gallegoContactRow(Icons.location_on, info.location),
+                  const SizedBox(height: 24),
+
+                  _gallegoSidebarOutlinePill('References'),
+                  const SizedBox(height: 10),
+                  const Text('Bachelor of Design', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11)),
+                  const Text('Borcelle University', style: TextStyle(color: Colors.white70, fontSize: 10.5)),
+                  const SizedBox(height: 6),
+                  const Text('Bachelor of Design', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11)),
+                  const Text('Borcelle University', style: TextStyle(color: Colors.white70, fontSize: 10.5)),
+                  const SizedBox(height: 24),
+
+                  _gallegoSidebarOutlinePill('Languages'),
+                  const SizedBox(height: 10),
+                  if (cvData.languages.isNotEmpty)
+                    ...cvData.languages.map((l) => Text('• ${l.name}', style: const TextStyle(color: Colors.white, fontSize: 11)))
+                  else ...[
+                    const Text('• English', style: TextStyle(color: Colors.white, fontSize: 11)),
+                    const Text('• French', style: TextStyle(color: Colors.white, fontSize: 11)),
+                    const Text('• German', style: TextStyle(color: Colors.white, fontSize: 11)),
+                    const Text('• Spanish', style: TextStyle(color: Colors.white, fontSize: 11)),
+                  ],
+                ],
+              ),
+            ),
+          ),
+
+          // Right Column
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.only(top: 24, right: 24, left: 16),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header Box
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      color: oceanTeal,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            info.fullName.isNotEmpty ? info.fullName : 'Daniel Gallego',
+                            style: TextStyle(fontSize: 28 * theme.fontSizeScale, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            info.jobTitle.isNotEmpty ? info.jobTitle : 'Freelance Presentation Designer',
+                            style: const TextStyle(fontSize: 14, color: Colors.white70),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    _gallegoRibbonHeader(Icons.person, 'Profile', oceanTeal),
+                    const SizedBox(height: 10),
+                    Text(
+                      cvData.professionalSummary.isNotEmpty
+                          ? cvData.professionalSummary
+                          : 'Creative graphic designer passionate about visual storytelling, skilled in design tools, and dedicated to delivering modern and appealing results.',
+                      style: const TextStyle(color: Color(0xFF334155), fontSize: 11, height: 1.4),
+                    ),
+                    const SizedBox(height: 20),
+
+                    _gallegoRibbonHeader(Icons.school, 'Education', oceanTeal),
+                    const SizedBox(height: 10),
+                    if (cvData.education.isNotEmpty)
+                      ...cvData.education.map((edu) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                                Text('${edu.major} • ${edu.startDate} - ${edu.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+                              ],
+                            ),
+                          ))
+                    else ...[
+                      const Text('Bachelor of Design', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                      const Text('Borcelle University • 2006 - 2008', style: TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+                    ],
+                    const SizedBox(height: 20),
+
+                    _gallegoRibbonHeader(Icons.work, 'Experience', oceanTeal),
+                    const SizedBox(height: 10),
+                    if (cvData.experience.isNotEmpty)
+                      ...cvData.experience.map((exp) => Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(exp.company, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                                Text(exp.position, style: const TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+                                if (exp.description.isNotEmpty) Text('• ${exp.description}', style: const TextStyle(color: Color(0xFF334155), fontSize: 10.5)),
+                              ],
+                            ),
+                          ))
+                    else ...[
+                      const Text('Borcelle Studio', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                      const Text('Lead Presentation Designer', style: TextStyle(color: Color(0xFF64748B), fontSize: 10.5)),
+                      const Text('• Created impactful pitch decks, sales presentations, and templates.', style: TextStyle(color: Color(0xFF334155), fontSize: 10.5)),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _gallegoSidebarOutlinePill(String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1.5),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+      ),
+    );
+  }
+
+  Widget _gallegoContactRow(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          CircleAvatar(radius: 10, backgroundColor: Colors.white, child: Icon(icon, color: const Color(0xFF063952), size: 10)),
+          const SizedBox(width: 8),
+          Expanded(child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 10), overflow: TextOverflow.ellipsis)),
+        ],
+      ),
+    );
+  }
+
+  Widget _gallegoRibbonHeader(IconData icon, String title, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+      color: color,
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.white, size: 16),
+          const SizedBox(width: 8),
+          Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+        ],
+      ),
+    );
+  }
+
+  // 6. GEORGE WILKINS (Monochrome Pop Art Boxed Headers & Circular Skill Charts)
+  Widget _buildGeorgeWilkinsTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const darkBox = Color(0xFF1F242A);
+    const bodyText = Color(0xFF334155);
+
+    return Container(
+      color: const Color(0xFFF1F5F9),
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 2),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Top Header Row (Photo Box + Name Box)
+              Row(
+                children: [
+                  Container(
+                    width: 140,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 2.5),
+                    ),
+                    child: info.photoBytes != null
+                        ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
+                        : Container(color: const Color(0xFFCBD5E1), child: const Icon(Icons.person, size: 60, color: Colors.white)),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          color: darkBox,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                info.fullName.isNotEmpty ? info.fullName.toUpperCase() : 'DANIEL GALLEGO',
+                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.white),
+                              ),
+                              Text(
+                                info.jobTitle.isNotEmpty ? info.jobTitle : 'Graphics Designer',
+                                style: const TextStyle(fontSize: 12, color: Colors.white70),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        _wilkinsBoxedHeader('ABOUT ME'),
+                        const SizedBox(height: 6),
+                        Text(
+                          cvData.professionalSummary.isNotEmpty
+                              ? cvData.professionalSummary
+                              : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque non elit mauris. Cras euismod, metus ac finibus finibus.',
+                          style: const TextStyle(color: bodyText, fontSize: 10.5, height: 1.35),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // 2 Column Content Body
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Left Column: CONTACT ME, EDUCATION, LANGUAGE
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          color: darkBox,
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _wilkinsWhiteHeader('CONTACT ME'),
+                              const SizedBox(height: 8),
+                              if (info.phone.isNotEmpty) Text('• ${info.phone}', style: const TextStyle(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                              if (info.email.isNotEmpty) Text('• ${info.email}', style: const TextStyle(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                              if (info.portfolio.isNotEmpty) Text('• ${info.portfolio}', style: const TextStyle(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                              if (info.location.isNotEmpty) Text('• ${info.location}', style: const TextStyle(color: Colors.white, fontSize: 10.5, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+
+                        _wilkinsBoxedHeader('EDUCATION'),
+                        const SizedBox(height: 6),
+                        if (cvData.education.isNotEmpty)
+                          ...cvData.education.map((edu) => Padding(
+                                padding: const EdgeInsets.only(bottom: 6),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('• ${edu.school}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                                    Text('${edu.startDate}-${edu.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 9.5)),
+                                  ],
+                                ),
+                              ))
+                        else ...[
+                          const Text('• Senior High School Borcelle', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          const Text('2014-2016', style: TextStyle(color: Color(0xFF64748B), fontSize: 9.5)),
+                          const SizedBox(height: 4),
+                          const Text('• Bachelor of Design', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          const Text('Borcelle University 2016-2019', style: TextStyle(color: Color(0xFF64748B), fontSize: 9.5)),
+                        ],
+                        const SizedBox(height: 14),
+
+                        Container(
+                          color: darkBox,
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              _wilkinsWhiteHeader('LANGUAGE'),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  _wilkinsDonut('57%', 'Indonesia'),
+                                  _wilkinsDonut('55%', 'Chinese'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(width: 14),
+
+                  // Right Column: WORK EXPERIENCE, SKILL
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _wilkinsBoxedHeader('WORK EXPERIENCE'),
+                        const SizedBox(height: 6),
+                        if (cvData.experience.isNotEmpty)
+                          ...cvData.experience.map((exp) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('• ${exp.company}, ${exp.startDate}-${exp.endDate}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                                    Text(exp.position, style: const TextStyle(color: Color(0xFF64748B), fontSize: 10)),
+                                    if (exp.description.isNotEmpty) Text('• ${exp.description}', style: const TextStyle(color: bodyText, fontSize: 9.5)),
+                                  ],
+                                ),
+                              ))
+                        else ...[
+                          const Text('• Borcelle Industries, 2021-2023', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          const Text('Product Design Manager', style: TextStyle(color: Color(0xFF64748B), fontSize: 10)),
+                          const Text('• Working with wider development team.', style: TextStyle(color: bodyText, fontSize: 9.5)),
+                          const SizedBox(height: 6),
+                          const Text('• Salford & Co., 2023-2025', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                          const Text('Senior Designer', style: TextStyle(color: Color(0xFF64748B), fontSize: 10)),
+                          const Text('• Made 1000+ logo designs.', style: TextStyle(color: bodyText, fontSize: 9.5)),
+                        ],
+                        const SizedBox(height: 14),
+
+                        _wilkinsBoxedHeader('SKILL'),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _wilkinsDonut('56%', 'Typography'),
+                            _wilkinsDonut('47%', 'Branding'),
+                            _wilkinsDonut('65%', 'Software'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _wilkinsBoxedHeader(String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black, width: 2),
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 1.2),
+        ),
+      ),
+    );
+  }
+
+  Widget _wilkinsWhiteHeader(String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      color: Colors.white,
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 11.5, letterSpacing: 1.2),
+        ),
+      ),
+    );
+  }
+
+  Widget _wilkinsDonut(String percent, String label) {
+    return Column(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3.5),
+          ),
+          child: Center(
+            child: Text(percent, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10)),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(label, style: const TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.w500)),
+      ],
     );
   }
 
