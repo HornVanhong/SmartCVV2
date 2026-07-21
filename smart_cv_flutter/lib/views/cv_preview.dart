@@ -220,7 +220,8 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   }
 
   Widget _buildSelectedTemplate(CVData cvData, CVTheme theme) {
-    switch (theme.templateId) {
+    final cleanId = theme.templateId.toLowerCase().replaceAll('canva_', '');
+    switch (cleanId) {
       case 'daniel_morton':
         return _buildDanielMortonTemplate(cvData, theme);
       case 'murad_naser':
@@ -237,6 +238,20 @@ class _CVPreviewViewState extends State<CVPreviewView> {
         return _buildKyriePetrakisTemplate(cvData, theme);
       case 'francisco_andrade':
         return _buildFranciscoAndradeTemplate(cvData, theme);
+      case 'isabel':
+        return _buildIsabelMercadoTemplate(cvData, theme);
+      case 'julian':
+        return _buildJulianRobertTemplate(cvData, theme);
+      case 'donna':
+        return _buildDonnaStroupeTemplate(cvData, theme);
+      case 'sacha':
+        return _buildSachaDuboisTemplate(cvData, theme);
+      case 'juliana':
+        return _buildJulianaSilvaTemplate(cvData, theme);
+      case 'adeline':
+        return _buildAdelinePalmerstonTemplate(cvData, theme);
+      case 'oliva':
+        return _buildOlivaSanchezTemplate(cvData, theme);
       default:
         return _buildDanielMortonTemplate(cvData, theme);
     }
@@ -887,12 +902,241 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                         )),
                   ],
                 ],
+  // 9. ISABEL MERCADO (Dark Navy & Skill Bars)
+  Widget _buildIsabelMercadoTemplate(CVData cvData, CVTheme theme) {
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: const Color(0xFF1E293B),
+      bodyColor: const Color(0xFF0F172A),
+      badgeColor: const Color(0xFF2563EB),
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 10. JULIAN ROBERT (Geometric Purple & Blue)
+  Widget _buildJulianRobertTemplate(CVData cvData, CVTheme theme) {
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: const Color(0xFF4C1D95),
+      bodyColor: const Color(0xFF5B21B6),
+      badgeColor: const Color(0xFF7C3AED),
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 11. DONNA STROUPE (Soft Warm Taupe & Classic Paper)
+  Widget _buildDonnaStroupeTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const warmBg = Color(0xFFFBF9F5);
+    const taupeDark = Color(0xFF574C43);
+    const taupeAccent = Color(0xFF8C7A6B);
+
+    return Container(
+      color: warmBg,
+      padding: const EdgeInsets.all(40),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Center Header Block
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    info.fullName.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      color: taupeDark,
+                      letterSpacing: 3.0,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    info.jobTitle.toUpperCase(),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: taupeAccent,
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (info.email.isNotEmpty) Text(info.email, style: const TextStyle(color: taupeDark, fontSize: 11)),
+                      if (info.phone.isNotEmpty) Text('  •  ${info.phone}', style: const TextStyle(color: taupeDark, fontSize: 11)),
+                      if (info.location.isNotEmpty) Text('  •  ${info.location}', style: const TextStyle(color: taupeDark, fontSize: 11)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Container(height: 1.5, width: 120, color: taupeAccent),
+                ],
               ),
             ),
-          ),
+            const SizedBox(height: 32),
+            if (cvData.professionalSummary.isNotEmpty) ...[
+              _topHeaderSectionTitle('PROFESSIONAL PROFILE', taupeAccent),
+              Text(cvData.professionalSummary, style: const TextStyle(color: taupeDark, fontSize: 12, height: 1.6)),
+              const SizedBox(height: 24),
+            ],
+            if (cvData.experience.isNotEmpty) ...[
+              _topHeaderSectionTitle('WORK EXPERIENCE', taupeAccent),
+              ...cvData.experience.map((exp) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: taupeDark)),
+                            Text('${exp.startDate} – ${exp.endDate}', style: const TextStyle(color: taupeAccent, fontSize: 11.5, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Text(exp.company, style: const TextStyle(color: taupeAccent, fontSize: 12, fontStyle: FontStyle.italic)),
+                        if (exp.description.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Text(exp.description, style: const TextStyle(color: taupeDark, fontSize: 11.5, height: 1.45)),
+                        ],
+                      ],
+                    ),
+                  )),
+              const SizedBox(height: 24),
+            ],
+            if (cvData.education.isNotEmpty) ...[
+              _topHeaderSectionTitle('EDUCATION', taupeAccent),
+              ...cvData.education.map((edu) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: taupeDark)),
+                        Text(edu.major, style: const TextStyle(color: taupeAccent, fontSize: 11.5)),
+                      ],
+                    ),
+                  )),
+            ],
+          ],
         ),
-      ],
+      ),
+    );
+  }
+
+  // 12. SACHA DUBOIS (Dark Executive Charcoal)
+  Widget _buildSachaDuboisTemplate(CVData cvData, CVTheme theme) {
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: const Color(0xFF334155),
+      bodyColor: const Color(0xFF1E293B),
+      badgeColor: const Color(0xFF475569),
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 13. JULIANA SILVA (Slate & Rounded Section Cards)
+  Widget _buildJulianaSilvaTemplate(CVData cvData, CVTheme theme) {
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: const Color(0xFF475569),
+      bodyColor: const Color(0xFF334155),
+      badgeColor: const Color(0xFF64748B),
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 14. ADELINE PALMERSTON (Dark Blue & Gold Bold Accents)
+  Widget _buildAdelinePalmerstonTemplate(CVData cvData, CVTheme theme) {
+    return _buildTwoColumnTemplate(
+      cvData: cvData,
+      theme: theme,
+      sidebarColor: const Color(0xFF1E3A8A),
+      bodyColor: const Color(0xFF172554),
+      badgeColor: const Color(0xFFEAB308),
+      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    );
+  }
+
+  // 15. OLIVA SANCHEZ (Minimalist Clean Single Column)
+  Widget _buildOlivaSanchezTemplate(CVData cvData, CVTheme theme) {
+    final info = cvData.personalInfo;
+    const darkText = Color(0xFF0F172A);
+    const mutedText = Color(0xFF64748B);
+
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(40),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              info.fullName,
+              style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: darkText),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              info.jobTitle,
+              style: const TextStyle(fontSize: 16, color: Color(0xFF2563EB), fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 16,
+              children: [
+                if (info.email.isNotEmpty) Text(info.email, style: const TextStyle(color: mutedText, fontSize: 12)),
+                if (info.phone.isNotEmpty) Text(info.phone, style: const TextStyle(color: mutedText, fontSize: 12)),
+                if (info.location.isNotEmpty) Text(info.location, style: const TextStyle(color: mutedText, fontSize: 12)),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const Divider(thickness: 1.5),
+            const SizedBox(height: 20),
+            if (cvData.professionalSummary.isNotEmpty) ...[
+              _topHeaderSectionTitle('SUMMARY', const Color(0xFF2563EB)),
+              Text(cvData.professionalSummary, style: const TextStyle(color: darkText, fontSize: 12, height: 1.5)),
+              const SizedBox(height: 24),
+            ],
+            if (cvData.experience.isNotEmpty) ...[
+              _topHeaderSectionTitle('EXPERIENCE', const Color(0xFF2563EB)),
+              ...cvData.experience.map((exp) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: darkText)),
+                        Text('${exp.company} • ${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: mutedText, fontSize: 12)),
+                        if (exp.description.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Text(exp.description, style: const TextStyle(color: darkText, fontSize: 11.5, height: 1.4)),
+                        ],
+                      ],
+                    ),
+                  )),
+              const SizedBox(height: 24),
+            ],
+            if (cvData.education.isNotEmpty) ...[
+              _topHeaderSectionTitle('EDUCATION', const Color(0xFF2563EB)),
+              ...cvData.education.map((edu) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: darkText)),
+                        Text(edu.major, style: const TextStyle(color: mutedText, fontSize: 11.5)),
+                      ],
+                    ),
+                  )),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }
+
 
