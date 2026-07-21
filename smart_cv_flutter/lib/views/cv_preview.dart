@@ -225,6 +225,7 @@ class _CVPreviewViewState extends State<CVPreviewView> {
       case 'daniel_morton':
         return _buildDanielMortonTemplate(cvData, theme);
       case 'murad_naser':
+      case 'matt_zhang':
         return _buildMuradNaserTemplate(cvData, theme);
       case 'francois_mercer':
         return _buildFrancoisMercerTemplate(cvData, theme);
@@ -497,18 +498,318 @@ class _CVPreviewViewState extends State<CVPreviewView> {
   // DISTINCT TEMPLATE IMPLEMENTATIONS
   // =========================================================
 
-  // 2. MURAD NASER (Deep Teal & Gold Accent)
+  // 2. MATT ZHANG / MURAD NASER (Pixel-Perfect Match to User Design Image)
   Widget _buildMuradNaserTemplate(CVData cvData, CVTheme theme) {
-    const sidebarTeal = Color(0xFF0E5A60);
-    const bodyTeal = Color(0xFF073B40);
-    const goldPill = Color(0xFFD97706);
-    return _buildTwoColumnTemplate(
-      cvData: cvData,
-      theme: theme,
-      sidebarColor: sidebarTeal,
-      bodyColor: bodyTeal,
-      badgeColor: goldPill,
-      badgeText: cvData.personalInfo.jobTitle.toUpperCase(),
+    final info = cvData.personalInfo;
+    const bannerBlue = Color(0xFF466B95);
+    const sidebarBg = Color(0xFFDCE4EC);
+    const darkText = Color(0xFF1E293B);
+    const bodyText = Color(0xFF334155);
+
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          // Top Header Banner Row
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Sidebar Top Extension (Light Grey-Blue)
+              Container(
+                width: 260,
+                height: 90,
+                color: sidebarBg,
+              ),
+              // Main Blue Header Banner
+              Expanded(
+                child: Container(
+                  height: 90,
+                  color: bannerBlue,
+                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        info.fullName.isNotEmpty ? info.fullName : 'Matt Zhang',
+                        style: TextStyle(
+                          fontSize: 28 * theme.fontSizeScale,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        (info.jobTitle.isNotEmpty ? info.jobTitle : 'MARKETING MANAGER').toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white70,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Main 2-Column Body Row
+          Expanded(
+            child: Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Left Sidebar Column
+                    Container(
+                      width: 260,
+                      color: sidebarBg,
+                      padding: const EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 24),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Contact Items
+                            _mattContactRow(Icons.phone, info.phone.isNotEmpty ? info.phone : '+123-456-7890', bannerBlue),
+                            const SizedBox(height: 10),
+                            _mattContactRow(Icons.email, info.email.isNotEmpty ? info.email : 'hello@reallygreatsite.com', bannerBlue),
+                            const SizedBox(height: 10),
+                            _mattContactRow(Icons.location_on, info.location.isNotEmpty ? info.location : '123 Anywhere St., Any City', bannerBlue),
+                            const SizedBox(height: 28),
+
+                            // More information Section Header
+                            _mattSidebarHeader('More information', bannerBlue),
+                            const SizedBox(height: 10),
+                            const Text('- Driver\'s license.', style: TextStyle(color: bodyText, fontSize: 11.5, height: 1.4)),
+                            const Text('- Own vehicle.', style: TextStyle(color: bodyText, fontSize: 11.5, height: 1.4)),
+                            const Text('- Full availability.', style: TextStyle(color: bodyText, fontSize: 11.5, height: 1.4)),
+                            const SizedBox(height: 28),
+
+                            // Languages Section Header
+                            _mattSidebarHeader('Languages', bannerBlue),
+                            const SizedBox(height: 10),
+                            if (cvData.languages.isNotEmpty)
+                              ...cvData.languages.map((l) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 6),
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: const TextStyle(fontSize: 11.5, color: bodyText),
+                                        children: [
+                                          TextSpan(text: '${l.name}:\n', style: const TextStyle(fontWeight: FontWeight.bold, color: darkText)),
+                                          TextSpan(text: l.level),
+                                        ],
+                                      ),
+                                    ),
+                                  ))
+                            else ...[
+                              const Text('Spanish:\nHigh level.', style: TextStyle(color: bodyText, fontSize: 11.5, height: 1.3)),
+                              const SizedBox(height: 8),
+                              const Text('English:\nNative.', style: TextStyle(color: bodyText, fontSize: 11.5, height: 1.3)),
+                            ],
+                            const SizedBox(height: 28),
+
+                            // Skills Section Header
+                            _mattSidebarHeader('Skills', bannerBlue),
+                            const SizedBox(height: 10),
+                            Text(
+                              cvData.skills.isNotEmpty
+                                  ? cvData.skills.join(', ')
+                                  : 'Good communication skills, management of large teams, problem-solving skills, proficiency, commercial mindset, and agility in delivering results.',
+                              style: const TextStyle(color: bodyText, fontSize: 11.5, height: 1.45),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Right Main Column
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // About me Section Header
+                              _mattMainHeader('About me', bannerBlue),
+                              const SizedBox(height: 10),
+                              Text(
+                                cvData.professionalSummary.isNotEmpty
+                                    ? cvData.professionalSummary
+                                    : 'Passionate about marketing, I define myself as a person eager to learn and a great leader of multidisciplinary teams. I have worked in several companies focused on advertising and marketing.',
+                                style: const TextStyle(color: bodyText, fontSize: 11.5, height: 1.5),
+                              ),
+                              const SizedBox(height: 24),
+
+                              // Work experience Section Header
+                              _mattMainHeader('Work experience', bannerBlue),
+                              const SizedBox(height: 12),
+                              if (cvData.experience.isNotEmpty)
+                                ...cvData.experience.map((exp) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 16),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(exp.position, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: darkText)),
+                                          Text('${exp.company} | ${exp.startDate} - ${exp.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+                                          if (exp.description.isNotEmpty) ...[
+                                            const SizedBox(height: 4),
+                                            Text('- ${exp.description}', style: const TextStyle(color: bodyText, fontSize: 11, height: 1.4)),
+                                          ],
+                                        ],
+                                      ),
+                                    ))
+                              else ...[
+                                _mattExpBlock('Marketing Manager', 'Real Estate, S.L', 'January 2017 - April 2019', [
+                                  'Creation of a marketing plan.',
+                                  'Definition of strategies to follow.',
+                                  'Monitoring the results of actions.',
+                                  'Lead a team of professionals.',
+                                ]),
+                                const SizedBox(height: 14),
+                                _mattExpBlock('Marketing Manager', 'Insurance Company, S.L', 'January 2017 - April 2019', [
+                                  'Marketing strategy planning.',
+                                  'Evaluation of the marketing plan.',
+                                  'Preparation of commercial proposals.',
+                                ]),
+                                const SizedBox(height: 14),
+                                _mattExpBlock('Marketing Junior', 'Insurance Company, S.L', 'January 2015 - April 2017', [
+                                  'Marketing strategy planning.',
+                                  'Evaluation of the marketing plan.',
+                                  'Preparation of commercial proposals.',
+                                ]),
+                              ],
+                              const SizedBox(height: 24),
+
+                              // Academic data Section Header
+                              _mattMainHeader('Academic data', bannerBlue),
+                              const SizedBox(height: 12),
+                              if (cvData.education.isNotEmpty)
+                                ...cvData.education.map((edu) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 12),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(edu.school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: darkText)),
+                                          Text('${edu.major} | ${edu.startDate} - ${edu.endDate}', style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+                                        ],
+                                      ),
+                                    ))
+                              else ...[
+                                _mattEduBlock('University of the Sea', 'Marketing and Advertising Studies', 'Current'),
+                                const SizedBox(height: 10),
+                                _mattEduBlock('San Juan Study Center', 'Marketing Studies', 'September 2018 - July 2021'),
+                                const SizedBox(height: 10),
+                                _mattEduBlock('Higher business school', 'Advertising Studies', 'September 2015 - July 2017'),
+                                const SizedBox(height: 10),
+                                _mattEduBlock('Business school', 'Advertising Studies', 'September 2010 - July 2015'),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Overlapping Portrait Photo Frame
+                Positioned(
+                  left: 45,
+                  top: -65,
+                  child: Container(
+                    width: 140,
+                    height: 155,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.15),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: info.photoBytes != null
+                        ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
+                        : Container(
+                            color: const Color(0xFFCBD5E1),
+                            child: const Icon(Icons.person, size: 70, color: Colors.white),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _mattSidebarHeader(String title, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      color: color,
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12.5),
+      ),
+    );
+  }
+
+  Widget _mattMainHeader(String title, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+      color: color,
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13.5),
+      ),
+    );
+  }
+
+  Widget _mattContactRow(IconData icon, String text, Color color) {
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 12,
+          backgroundColor: color,
+          child: Icon(icon, color: Colors.white, size: 12),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(text, style: const TextStyle(color: Color(0xFF334155), fontSize: 11, fontWeight: FontWeight.w500)),
+        ),
+      ],
+    );
+  }
+
+  Widget _mattExpBlock(String title, String company, String date, List<String> bullets) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF1E293B))),
+        Text('$company | $date', style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+        const SizedBox(height: 4),
+        ...bullets.map((b) => Text('- $b', style: const TextStyle(color: Color(0xFF334155), fontSize: 11, height: 1.35))),
+      ],
+    );
+  }
+
+  Widget _mattEduBlock(String school, String major, String date) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(school, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5, color: Color(0xFF1E293B))),
+        Text('$major | $date', style: const TextStyle(color: Color(0xFF64748B), fontSize: 11.5)),
+      ],
     );
   }
 
