@@ -509,70 +509,71 @@ class _CVPreviewViewState extends State<CVPreviewView> {
 
     return Container(
       color: Colors.white,
-      child: Column(
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          // Top Header Banner Row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Column(
             children: [
-              // Sidebar Top Extension (Light Grey-Blue)
-              Container(
-                width: 260,
-                height: 105,
-                color: sidebarBg,
-              ),
-              // Main Blue Header Banner
-              Expanded(
-                child: Container(
-                  height: 105,
-                  color: bannerBlue,
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        info.fullName.isNotEmpty ? info.fullName : 'Matt Zhang',
-                        style: TextStyle(
-                          fontSize: (26 * theme.fontSizeScale).clamp(18.0, 30.0),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: 0.8,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        (info.jobTitle.isNotEmpty ? info.jobTitle : 'MARKETING MANAGER').toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white70,
-                          letterSpacing: 1.8,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+              // Top Header Banner Row
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Sidebar Top Extension (Light Grey-Blue)
+                  Container(
+                    width: 260,
+                    height: 105,
+                    color: sidebarBg,
                   ),
-                ),
+                  // Main Blue Header Banner
+                  Expanded(
+                    child: Container(
+                      height: 105,
+                      color: bannerBlue,
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            info.fullName.isNotEmpty ? info.fullName : 'Matt Zhang',
+                            style: TextStyle(
+                              fontSize: (26 * theme.fontSizeScale).clamp(18.0, 30.0),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 0.8,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            (info.jobTitle.isNotEmpty ? info.jobTitle : 'MARKETING MANAGER').toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white70,
+                              letterSpacing: 1.8,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
 
-          // Main 2-Column Body Row
-          Expanded(
-            child: Stack(
-              children: [
-                Row(
+              // Main 2-Column Body Row
+              Expanded(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // Left Sidebar Column
                     Container(
                       width: 260,
                       color: sidebarBg,
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 24),
+                      padding: const EdgeInsets.only(left: 20, right: 20, top: 105, bottom: 24),
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -720,39 +721,39 @@ class _CVPreviewViewState extends State<CVPreviewView> {
                     ),
                   ],
                 ),
+              ),
+            ],
+          ),
 
-                // Overlapping Portrait Photo Frame
-                Positioned(
-                  left: 40,
-                  top: -55,
-                  child: Container(
-                    width: 145,
-                    height: 160,
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x33000000),
-                          blurRadius: 14,
-                          spreadRadius: 1,
-                          offset: Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
-                      child: info.photoBytes != null
-                          ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
-                          : Container(
-                              color: const Color(0xFFCBD5E1),
-                              child: const Icon(Icons.person, size: 70, color: Colors.white),
-                            ),
-                    ),
+          // Overlapping Portrait Photo Frame at Root Stack Level
+          Positioned(
+            left: 55,
+            top: 25,
+            child: Container(
+              width: 150,
+              height: 165,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 14,
+                    spreadRadius: 1,
+                    offset: Offset(0, 6),
                   ),
-                ),
-              ],
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7),
+                child: info.photoBytes != null
+                    ? Image.memory(info.photoBytes!, fit: BoxFit.cover)
+                    : Container(
+                        color: const Color(0xFFCBD5E1),
+                        child: const Icon(Icons.person, size: 75, color: Colors.white),
+                      ),
+              ),
             ),
           ),
         ],
